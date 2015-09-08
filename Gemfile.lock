@@ -49,6 +49,8 @@ GEM
       rack-accept
       rack-mount
       virtus (>= 1.0.0)
+    grape_logging (1.1.2)
+      grape
     hashie (3.4.2)
     i18n (0.7.0)
     ice_nine (0.11.1)
@@ -85,6 +87,7 @@ GEM
     rack (1.6.4)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-cors (0.4.0)
     rack-mount (0.8.3)
       rack (>= 1.0.0)
     slop (3.6.0)
@@ -104,11 +107,13 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  grape_logging
   grape_token_auth!
   omniauth
   omniauth-github
   pg
   pry
+  rack-cors
 
 BUNDLED WITH
    1.10.4

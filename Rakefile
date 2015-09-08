@@ -8,4 +8,8 @@ namespace :db do
   task :migrate do
     Database.new.setup
   end
+
+  task :reset do
+    Database.new.reset
+  end
 end

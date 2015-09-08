@@ -1,11 +1,25 @@
 require 'grape'
 require 'grape_token_auth'
+require 'grape_logging'
+require 'pry'
 require_relative 'grape_token_auth_setup'
+
 
 class GrapeTokenAuthDemo < Grape::API
   format :json
 
-  include GrapeTokenAuth::TokenAuthentication
+  log_path =  File.expand_path('../../log/t.log', __FILE__)
+  log_file = File.open(log_path, 'a')
+  log_file.sync = true
+
+  logger Logger.new GrapeLogging::MultiIO.new(STDOUT, log_file)
+  logger.formatter = GrapeLogging::Formatters::Default.new
+  use GrapeLogging::Middleware::RequestLogger, { logger: logger }
+  rescue_from :all do |e|
+    Rack::Response.new({ message: e.message, backtrace: e.backtrace }, 500, { 'Content-type' => 'application/json' }).finish
+  end
+
+#  include GrapeTokenAuth::TokenAuthentication
   include GrapeTokenAuth::ApiHelpers
 
   mount_registration(to: '/auth', for: :user)
