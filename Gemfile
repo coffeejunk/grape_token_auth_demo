@@ -1,5 +1,6 @@
 # A sample Gemfile
 source 'https://rubygems.org'
+ruby "2.2.0"
 
 gem 'grape_token_auth', github: 'mcordell/grape_token_auth'
 gem 'activerecord'
