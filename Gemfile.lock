@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mcordell/grape_token_auth.git
-  revision: c539b145742de44cd04b55f4e5e3d00f62e3d401
+  revision: 512827bb35d0286caf6b8bef9b98104a8463727b
   branch: mailer
   specs:
     grape_token_auth (0.0.0)
