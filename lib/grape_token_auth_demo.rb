@@ -1,5 +1,4 @@
 require 'grape'
-require 'grape_token_auth'
 require 'grape_logging'
 require 'pry'
 require_relative 'grape_token_auth_setup'
@@ -16,7 +15,7 @@ class GrapeTokenAuthDemo < Grape::API
     Rack::Response.new({ message: e.message, backtrace: e.backtrace }, 500, { 'Content-type' => 'application/json' }).finish
   end
 
-#  include GrapeTokenAuth::TokenAuthentication
+  include GrapeTokenAuth::TokenAuthentication
   include GrapeTokenAuth::ApiHelpers
 
   mount_registration(to: '/auth', for: :user)
@@ -26,4 +25,11 @@ class GrapeTokenAuthDemo < Grape::API
   mount_omniauth(to: '/auth', for: :user)
   mount_password_reset(to: '/auth', for: :user)
   mount_omniauth_callbacks
+
+  get '/demo/members_only' do
+    authenticate_user!
+    status 200
+    present(data: { message: "Welcome #{current_user.email}",
+                    user: current_user })
+  end
 end

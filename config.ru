@@ -6,10 +6,11 @@ require_relative 'config/database'
 require 'warden'
 require 'omniauth'
 require 'omniauth-github'
+require 'grape_token_auth'
+require_relative 'lib/grape_token_auth_demo'
 
 Database.new.establish_connection!
 
-require_relative 'lib/grape_token_auth_demo'
 
 production = ENV['RACK_ENV'] == 'production'
 origin = production ? 'grape-ng-token-demo.herokuapp.com' :
@@ -24,10 +25,8 @@ use Rack::Cors do
 end
 
 use Rack::Session::Cookie, secret: 'blah'
-use Warden::Manager do |manager|
-  manager.failure_app = GrapeTokenAuth::UnauthorizedMiddleware
-  manager.default_scope = :user
-end
+
+GrapeTokenAuth.setup_warden!(self)
 
 use OmniAuth::Builder do
   provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET'], scope: 'email,profile'
