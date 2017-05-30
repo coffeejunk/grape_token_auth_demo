@@ -11,14 +11,9 @@ require_relative 'lib/grape_token_auth_demo'
 
 Database.new.establish_connection!
 
-
-production = ENV['RACK_ENV'] == 'production'
-origin = production ? 'grape-ng-token-demo.herokuapp.com' :
-                       'localhost:7777'
-
 use Rack::Cors do
   allow do
-    origins origin
+    origins '*'
     resource '*', headers: :any, methods: :any,
     expose: ['access-token', 'expiry', 'token-type', 'uid', 'client']
   end

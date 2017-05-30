@@ -15,6 +15,8 @@ class GrapeTokenAuthDemo < Grape::API
     Rack::Response.new({ message: e.message, backtrace: e.backtrace }, 500, { 'Content-type' => 'application/json' }).finish
   end
 
+
+  include GrapeTokenAuth::MountHelpers
   include GrapeTokenAuth::TokenAuthentication
   include GrapeTokenAuth::ApiHelpers
 
